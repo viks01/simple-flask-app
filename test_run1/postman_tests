@@ -1,0 +1,93 @@
+1. getAllUsers1.png
+request => curl --location --request GET 'localhost:5000/users/'
+response => 
+{
+    "users": []
+}
+ 
+2. getUser1.png 
+request => curl --location --request GET 'localhost:5000/users/1'
+response => No such user in database
+
+3. createUser1.png
+request => 
+curl --location --request POST 'localhost:5000/users' \
+--form 'name="Sarah"' \
+--form 'email="sarah34@gmail.com"' \
+--form 'id="1"'
+response => Succesfully inserted user Sarah with email sarah34@gmail.com and id 1 into users table
+
+4. createUser2.png
+request => 
+curl --location --request POST 'localhost:5000/users' \
+--form 'name="Anil"' \
+--form 'email="anil59@gmail.com"' \
+--form 'id="2"'
+response => Succesfully inserted user Anil with email anil59@gmail.com and id 2 into users table
+
+5. getAllUsers2.png
+request => curl --location --request GET 'localhost:5000/users'
+response => 
+{
+    "users": [
+        {
+            "email": "sarah34@gmail.com",
+            "id": 1,
+            "name": "Sarah"
+        },
+        {
+            "email": "anil59@gmail.com",
+            "id": 2,
+            "name": "Anil"
+        }
+    ]
+}
+
+6. updateUser2.png
+request => 
+curl --location --request PUT 'localhost:5000/users/2' \
+--form 'name="Anil"' \
+--form 'email="anil45@gmail.com"'
+response => Successfully updated user 2 with new name as Anil and new email as anil45@gmail.com
+
+7. getUser2.png
+request => curl --location --request GET 'localhost:5000/users/2'
+response => 
+[
+    2,
+    "Anil",
+    "anil45@gmail.com"
+]
+
+8. deleteUser1.png
+request => curl --location --request DELETE 'localhost:5000/users/1'
+response => Succesfully deleted user 1 from users table
+
+9. getAllUsers3.png
+request => curl --location --request GET 'localhost:5000/users/'
+response => 
+{
+    "users": [
+        {
+            "email": "anil45@gmail.com",
+            "id": 2,
+            "name": "Anil"
+        }
+    ]
+}
+
+10. getUser3.png
+request => curl --location --request GET 'localhost:5000/users/1'
+response => No such user in database
+
+11. deleteUser2.png
+request => curl --location --request DELETE 'localhost:5000/users/2'
+response => Succesfully deleted user 2 from users table
+
+12. getAllUsers4.png
+request => curl --location --request GET 'localhost:5000/users'
+response => 
+{
+    "users": []
+}
+
