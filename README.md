@@ -1,5 +1,5 @@
 # simple-flask-app
-A flask app that connects to a MySql database and performs CRUD operations on a table called "users".
+A flask app that connects to a MySql database and performs CRUD operations on a table called "users". <br>
 Steps for installation and setup:
 - Run the command ```$ pip install -r requirements.txt``` or install the python dependencies for the app manually
 - Start the mysql server and set up the database as shown in db_setup.png
