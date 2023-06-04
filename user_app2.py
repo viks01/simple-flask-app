@@ -65,10 +65,10 @@ def getUser(id):
 @app.route('/users', methods=['POST'])
 def createUser():
     try:
+        cur = mysql.connection.cursor()
         id = request.form['id']
         name = request.form['name']
         email = request.form['email']
-        cur = mysql.connection.cursor()
 
         # Invalid user id
         user_id = int(request.form['id'])
@@ -101,13 +101,12 @@ def createUser():
 @app.route('/users/<int:id>', methods=['PUT'])
 def updateUser(id):
     try:
+        cur = mysql.connection.cursor()
         name = request.form['name']
         email = request.form['email']
-        cur = mysql.connection.cursor()
 
         # Invalid user id
-        user_id = int(request.form['id'])
-        if user_id <= 0:
+        if int(id) <= 0:
             return jsonify(error="Invalid user id. User id must be positive.")
 
         # Check for existing user id
@@ -123,6 +122,10 @@ def updateUser(id):
         else:
             cur.execute("UPDATE users SET name = %s, email = %s WHERE id = %s", (name, email, id))
         mysql.connection.commit()
+        if name == "":
+            return "Successfully updated user " + str(id) + " with new email as " + str(email)
+        if email == "":
+            return "Successfully updated user " + str(id) + " with new name as " + str(name)
         return "Successfully updated user " + str(id) + " with new name as " + str(name) + " and new email as " + str(email)
     except ValueError:
         return jsonify(error="Invalid user id. User id must be integer."), 400
