@@ -82,10 +82,10 @@ def createUser():
             return jsonify(error="User already exists. Please use a different user id.")
         
         # Check for existing user name
-        cur.execute("SELECT * FROM users WHERE name = %s", (name,))
-        data = cur.fetchone()
-        if data is not None:
-            return jsonify(error="User already exists. Please use a different user name to avoid duplicate user creation.")
+        # cur.execute("SELECT * FROM users WHERE name = %s", (name,))
+        # data = cur.fetchone()
+        # if data is not None:
+        #     return jsonify(error="User already exists. Please use a different user name to avoid duplicate user creation.")
         
         cur.execute("INSERT INTO users (id, name, email) VALUES (%s, %s, %s)", (id, name, email))
         mysql.connection.commit()
@@ -136,9 +136,22 @@ def updateUser(id):
 def deleteUser(id):
     try:
         cur = mysql.connection.cursor()
+
+        # Invalid user id
+        if int(id) <= 0:
+            return jsonify(error="Invalid user id. User id must be positive.")
+        
+        # Check for existing user id
+        cur.execute("SELECT * FROM users WHERE id = %s", (id,))
+        data = cur.fetchone()
+        if data is None:
+            return jsonify(error="User does not exist."), 404
+        
         cur.execute("DELETE FROM users WHERE id = %s", (id,))
         mysql.connection.commit()
         return "Succesfully deleted user " + str(id) + " from users table"
+    except ValueError:
+        return jsonify(error="Invalid user id. User id must be integer."), 400
     except:
         return jsonify(error="Database error"), 500
     finally:
